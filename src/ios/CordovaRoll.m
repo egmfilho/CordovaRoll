@@ -12,19 +12,21 @@
 
     NSData* imageData = [[NSData alloc] initWithBase64EncodedString: dataURL options:0];
 
-    UIImage* image = [[[UIImage alloc] initWithData:imageData] autorelease];
+    UIImage* image = [[UIImage alloc] initWithData:imageData];
 
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(callback:didFinishSavingWithError:contextInfo:), nil);
 }
 
 - (void) callback:(UIImage *)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
 
+    CDVPluginResult* result;
+
     if (error != NULL) {
         NSLog(@"ERROR: %@", error);
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus: CDVCommandStatus_ERROR messageAsString:error.description];
+        result = [CDVPluginResult resultWithStatus: CDVCommandStatus_ERROR messageAsString:error.description];
     } else {
         NSLog(@"IMAGE SAVED!");
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsString:@"Image saved"];
+        result = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsString:@"Image saved"];
     }
 
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
