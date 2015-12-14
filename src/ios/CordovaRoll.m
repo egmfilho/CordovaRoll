@@ -5,6 +5,7 @@
 
 - (void) saveToCameraRoll:(CDVInvokedUrlCommand*) command {
 
+    NSLog(@"Cordova Roll plugin!");
     self.callbackId = command.callbackId;
 
     NSString* dataURL = [command.arguments objectAtIndex:0];
@@ -16,7 +17,7 @@
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(callback:didFinishSavingWithError:contextInfo:), nil);
 }
 
-- (void) callback:(UIImage *)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
+- (void) callback:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
 
     CDVPluginResult* result;
 
