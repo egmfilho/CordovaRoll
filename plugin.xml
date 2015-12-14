@@ -9,6 +9,8 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
 
+    <license>MIT</license>
+
     <js-module src="www/CordovaRoll.js" name="CordovaRoll">
         <clobbers target="window.cordovaRoll" />
     </js-module>
@@ -16,7 +18,7 @@
     <!-- Android -->
 
     <!-- iOS  -->
-    <platform>
+    <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="CordovaRoll">
                 <param name="ios-package" value="CordovaRoll" />
