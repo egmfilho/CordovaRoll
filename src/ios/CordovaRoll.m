@@ -1,4 +1,5 @@
 #import "CordovaRoll.h"
+#import <Cordova/CDV.h>
 
 @implementation CordovaRoll
 @synthesize callbackId;
@@ -35,3 +36,5 @@
     [super dealloc];
 
 }
+
+@end
