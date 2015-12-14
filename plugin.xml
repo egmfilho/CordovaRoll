@@ -12,7 +12,7 @@
     <license>MIT</license>
 
     <js-module src="www/CordovaRoll.js" name="CordovaRoll">
-        <clobbers target="window.cordovaRoll" />
+        <clobbers target="CordovaRoll" />
     </js-module>
 
     <!-- Android -->
