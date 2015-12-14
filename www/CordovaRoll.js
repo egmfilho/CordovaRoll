@@ -10,7 +10,7 @@ module.exports = {
             // just to check
             var data = dataURL.replace(/data:image\/png;base64,/,'');
 
-            return cordova.exec(successCallback, failureCallback, '', 'saveToCameraRoll', [data]);
+            return cordova.exec(successCallback, failureCallback, 'CordovaRoll', 'saveToCameraRoll', [data]);
         }
 
     }
