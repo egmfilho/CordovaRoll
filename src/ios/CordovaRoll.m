@@ -8,8 +8,8 @@
     NSLog(@"Cordova Roll - Save images to device's camera roll");
 
     self.callbackId = command.callbackId;
-    NSString* dataURL = (NSString*)[command.arguments objectAtIndex:NSDataBase64DecodingIgnoreUnknownCharacters];
-    NSData* imageData = [[NSData alloc] initWithBase64EncodedString: dataURL options:0];
+    NSString* dataURL = (NSString*)[command.arguments objectAtIndex:0];
+    NSData* imageData = [[NSData alloc] initWithBase64EncodedString: dataURL options:NSDataBase64DecodingIgnoreUnknownCharacters];
     UIImage* image = [[UIImage alloc] initWithData:imageData];
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(callback:didFinishSavingWithError:contextInfo:), nil);
 }
