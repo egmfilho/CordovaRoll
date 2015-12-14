@@ -5,6 +5,8 @@
 
 - (void) saveToCameraRoll:(CDVInvokedUrlCommand*) command {
 
+    NSLog(@"CordovaRoll: Preparing to save photo");
+    
     self.callbackId = command.callbackId;
 
     NSData* imageData = [NSData dataFromBase64String: [command.arguments objectAtIndex:0]];
