@@ -5,15 +5,12 @@
 
 - (void) saveToCameraRoll:(CDVInvokedUrlCommand*) command {
 
-    NSLog(@"Cordova Roll plugin!");
+    NSLog(@"Cordova Roll - Save images to device's camera roll");
+
     self.callbackId = command.callbackId;
-
-    NSString* dataURL = [command.arguments objectAtIndex:0];
-
+    NSString* dataURL = (NSString*)[command.arguments objectAtIndex:NSDataBase64DecodingIgnoreUnknownCharacters];
     NSData* imageData = [[NSData alloc] initWithBase64EncodedString: dataURL options:0];
-
     UIImage* image = [[UIImage alloc] initWithData:imageData];
-
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(callback:didFinishSavingWithError:contextInfo:), nil);
 }
 
