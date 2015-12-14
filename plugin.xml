@@ -1,0 +1,30 @@
+<plugin xmlns="https://apache.org/cordova.ns/plugins/1.0"
+        id="com.egmfilho.CordovaRoll"
+        version="0.0.1">
+
+    <name>Cordova Roll</name>
+    <description>A Cordova plugin that saves an image to device's camera roll</description>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/CordovaRoll.js" name="CordovaRoll">
+        <clobbers target="window.cordovaRoll" />
+    </js-module>
+
+    <!-- Android -->
+
+    <!-- iOS  -->
+    <platform>
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaRoll">
+                <param name="ios-package" value="CordovaRoll" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CordovaRoll.h" />
+        <source-file src="src/ios/CordovaRoll.m" />
+    </platform>
+
+</plugin>
