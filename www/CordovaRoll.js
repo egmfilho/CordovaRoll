@@ -9,8 +9,7 @@ module.exports = {
         } else if (albumTitle == null || typeof albumTitle != 'string') {
             console.log('Invalid album title!');
         } else {
-            var data = String(dataURL).replace(/data:image\/png;base64,/,'');
-
+            var data = String(dataURL).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
             return cordova.exec(successCallback, failureCallback, 'CordovaRoll', 'saveToPhotoLibrary', [data, albumTitle]);
         }
 
