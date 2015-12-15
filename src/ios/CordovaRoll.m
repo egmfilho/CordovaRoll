@@ -67,7 +67,7 @@
             placeholder = [createAlbum placeholderForCreatedAssetCollection];
             [placeholder retain];
 
-        } completionHandler:^(BOOL success, NSError* error) {
+        } completionHandler:^(BOOL success, NSError * _Nullable error) {
 
             if (success) {
                 PHFetchResult* result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[placeholder.localIdentifier] options:nil];
