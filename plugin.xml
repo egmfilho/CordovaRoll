@@ -27,6 +27,7 @@
         </config-file>
         <header-file src="src/ios/CordovaRoll.h" />
         <source-file src="src/ios/CordovaRoll.m" compiler-flags="-fno-objc-arc" />
+        <framework src="Photos.framework" />
     </platform>
 
 </plugin>
