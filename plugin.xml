@@ -1,6 +1,6 @@
 <plugin xmlns="https://apache.org/cordova.ns/plugins/1.0"
         id="com.egmfilho.CordovaRoll"
-        version="0.0.1">
+        version="0.5">
 
     <name>Cordova Roll</name>
     <description>A Cordova plugin that saves an image to device's camera roll</description>
@@ -16,7 +16,18 @@
     </js-module>
 
     <!-- Android -->
-
+    <platform name="android">
+        <config-file target="config.xml">
+            <feature name="CordovaRoll">
+                <param name="android-package" value="com.egmfilho.CordovaRoll"/>
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+        <source-file src="src/android/CordovaRoll.java" target-dir="src/org/apache/cordova/cordova-roll" />
+    </platform>
     <!-- iOS  -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
