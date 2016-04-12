@@ -20,15 +20,15 @@ public class CordovaRoll extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("saveToGallery".equals(action)) {
-            this.saveToGallery(args.getLong(0), args.getLong(1), callbackContext);
+        if ("saveToPhotoLibrary".equals(action)) {
+            this.saveToGallery(args.getString(0), args.getString(1), args.getString(2), callbackContext);
             return true;
         }
 
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
-    Bitmap decodeBitmap(String data) {
+    private Bitmap decodeBitmap(String data) {
 
         byte[] b = Base64.decode(data, Base64.DEFAULT);
 
@@ -36,19 +36,19 @@ public class CordovaRoll extends CordovaPlugin {
 
     }
 
-    public void saveToGallery(Bitmap bmp, String title, CallbackContext callbackContext) {
+    private void saveToPhotoLibrary(String data, String title, description, CallbackContext callbackContext) {
 
         Context context = this.cordova.getActivity().getApplicationContext();
 
-        // description = description.isEmpty() ? "" : description;
-        String description = "";
+        title = title.isEmpty() ? "" : title;
+        description = description.isEmpty() ? "" : description;
 
         try {
-            MediaStore.Images.Media.insertImage(context.getContentResolver(), bmp, title, description);
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
         } catch (Exception e) {
-            callbackContext.error("");
+            callbackContext.error("Error!");
         } finally {
-            callbackContext.success("");
+            callbackContext.success("Saved!");
         }
 
     }

@@ -9,7 +9,8 @@
 
     self.callbackId = command.callbackId;
     NSString* dataURL = (NSString*)[command.arguments objectAtIndex:0];
-    NSString* albumTitle = (NSString*)[command.arguments objectAtIndex:1];
+    NSString* filename = (NSString*)[command.arguments objectAtIndex:1];
+    NSString* albumTitle = (NSString*)[command.arguments objectAtIndex:2];
 
     NSData* imageData = [[NSData alloc] initWithBase64EncodedString: dataURL options:NSDataBase64DecodingIgnoreUnknownCharacters];
     UIImage* image = [[UIImage alloc] initWithData:imageData];
