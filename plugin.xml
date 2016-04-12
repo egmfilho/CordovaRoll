@@ -17,9 +17,9 @@
 
     <!-- Android -->
     <platform name="android">
-        <config-file target="config.xml">
+        <config-file target="res/xml/config.xml">
             <feature name="CordovaRoll">
-                <param name="android-package" value="com.egmfilho.CordovaRoll"/>
+                <param name="android-package" value="org.apache.cordova.cordovaroll.CordovaRoll"/>
                 <param name="onload" value="true" />
             </feature>
         </config-file>
