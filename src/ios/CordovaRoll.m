@@ -14,7 +14,45 @@
     NSData* imageData = [[NSData alloc] initWithBase64EncodedString: dataURL options:NSDataBase64DecodingIgnoreUnknownCharacters];
     UIImage* image = [[UIImage alloc] initWithData:imageData];
 
-    [self addNewAssetWithImage:image toAlbum: [self getAlbum:albumTitle]];
+    [self save:image toAlbum:albumTitle];
+}
+
+- (void) save:(UIImage *)image toAlbum:(NSString *)title {
+
+    __block PHAssetCollection* collection = nil;
+    __block PHObjectPlaceholder *placeholder = nil;
+
+    PHFetchOptions* fetchOptions = [[PHFetchOptions alloc] init];
+    fetchOptions.predicate = [NSPredicate predicateWithFormat:@"title = %@", title];
+
+    PHFetchResult* result =  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                                                      subtype:PHAssetCollectionSubtypeAny
+                                                                      options:fetchOptions];
+    if ([result count] != 0) {
+        collection = [result objectAtIndex:0];
+        [self addNewAssetWithImage:image toAlbum:collection];
+    }
+
+    if (!collection) {
+
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+
+            PHAssetCollectionChangeRequest* createAlbum = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:title];
+            placeholder = [createAlbum placeholderForCreatedAssetCollection];
+            [placeholder retain];
+
+        } completionHandler:^(BOOL success, NSError * _Nullable error) {
+
+            if (success) {
+                PHFetchResult* result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[placeholder.localIdentifier] options:nil];
+                collection = [result objectAtIndex:0];
+                [self addNewAssetWithImage:image toAlbum:collection];
+            }
+
+        }];
+
+    }
+
 }
 
 - (void) addNewAssetWithImage:(UIImage *)image toAlbum:(PHAssetCollection *)album {
@@ -43,42 +81,6 @@
         }
     }];
 
-}
-
-- (PHAssetCollection*) getAlbum:(NSString *)title {
-
-    __block PHAssetCollection* collection = nil;
-    __block PHObjectPlaceholder *placeholder = nil;
-
-    PHFetchOptions* fetchOptions = [[PHFetchOptions alloc] init];
-    fetchOptions.predicate = [NSPredicate predicateWithFormat:@"title = %@", title];
-
-    PHFetchResult* result =  [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
-                                                                              subtype:PHAssetCollectionSubtypeAny
-                                                                              options:fetchOptions];
-    if ([result count] != 0)
-        collection = [result objectAtIndex:0];
-
-    if (!collection) {
-
-        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-
-            PHAssetCollectionChangeRequest* createAlbum = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:title];
-            placeholder = [createAlbum placeholderForCreatedAssetCollection];
-            [placeholder retain];
-
-        } completionHandler:^(BOOL success, NSError * _Nullable error) {
-
-            if (success) {
-                PHFetchResult* result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[placeholder.localIdentifier] options:nil];
-                collection = [result objectAtIndex:0];
-            }
-
-        }];
-
-    }
-
-    return collection;
 }
 
 - (void) dealloc {
