@@ -36,7 +36,7 @@ public class CordovaRoll extends CordovaPlugin {
 
     }
 
-    private void saveToPhotoLibrary(String data, String title, description, CallbackContext callbackContext) {
+    private void saveToPhotoLibrary(String data, String title, String description, CallbackContext callbackContext) {
 
         Context context = this.cordova.getActivity().getApplicationContext();
 
