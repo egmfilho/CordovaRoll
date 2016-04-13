@@ -1,4 +1,4 @@
-package org.apache.cordova.cordovaroll.CordovaRoll;
+package org.apache.cordova.cordovaroll;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
