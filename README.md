@@ -14,7 +14,7 @@ function onDeviceReady() {
 ```
 
 ##Installation
-`cordova plugin add https://github.com/egmfilho/CordovaRoll.git`
+```cordova plugin add https://github.com/egmfilho/CordovaRoll.git```
 
 ##Supported Platforms
 * Android
