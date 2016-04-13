@@ -1,10 +1,11 @@
 {
-    "name": "cordova-plugin-CordovaRoll",
-    "version": 0.0.2,
-    "description": "A Cordova plugin that saves an image to device's camera roll",
+    "name": "cordova-plugin-cordova-roll",
+    "version": 1.0.1,
+    "description": "Cordova Roll Plugin",
     "cordova": {
-        "id": "com.egmfilho.CordovaRoll",
+        "id": "cordova-plugin-cordova-roll",
         "platforms": [
+            "android"
             "ios"
         ]
     },

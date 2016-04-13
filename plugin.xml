@@ -1,9 +1,9 @@
 <plugin xmlns="https://apache.org/cordova.ns/plugins/1.0"
-        id="com.egmfilho.CordovaRoll"
-        version="0.5">
+        id="cordova-plugin-cordova-roll"
+        version="1.0.1">
 
     <name>Cordova Roll</name>
-    <description>A Cordova plugin that saves an image to device's camera roll</description>
+    <description>Cordova Roll Plugin</description>
 
     <engines>
         <engine name="cordova" version=">=3.0.0" />
