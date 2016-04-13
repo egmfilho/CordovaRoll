@@ -21,7 +21,7 @@ public class CordovaRoll extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("saveToPhotoLibrary".equals(action)) {
-            this.saveToGallery(args.getString(0), args.getString(1), args.getString(2), callbackContext);
+            this.saveToPhotoLibrary(args.getString(0), args.getString(1), args.getString(2), callbackContext);
             return true;
         }
 
