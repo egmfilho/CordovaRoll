@@ -132,11 +132,11 @@ public class CordovaRoll extends CordovaPlugin {
 			true
 		);
 
-		ContentValues values = new ContentValues(4);
-		values.put(MediaStore.Images.Media.Thumbnails.KIND,kind);
-		values.put(MediaStore.Images.Media.Thumbnails.IMAGE_ID,(int)id);
-		values.put(MediaStore.Images.Media.Thumbnails.HEIGHT,thumb.getHeight());
-		values.put(MediaStore.Images.Media.Thumbnails.WIDTH,thumb.getWidth());
+        ContentValues values = new ContentValues(4);
+        values.put(MediaStore.Images.Thumbnails.KIND,kind);
+        values.put(MediaStore.Images.Thumbnails.IMAGE_ID,(int)id);
+        values.put(MediaStore.Images.Thumbnails.HEIGHT,thumb.getHeight());
+        values.put(MediaStore.Images.Thumbnails.WIDTH,thumb.getWidth());
 
 		Uri url = cr.insert(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, values);
 
