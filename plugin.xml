@@ -18,7 +18,7 @@
     <!-- Android -->
     <platform name="android">
         <source-file src="src/android/CordovaRoll.java" target-dir="src/org/apache/cordova/cordovaroll" />
-        <source-file src="src/android/SingleMediaScanner.java" target-dir="src/org/apache/cordova/cordovaroll" />
+        <source-file src="src/android/SingleMediaScanner.java" target-dir="src/org/apache/cordova/cordovaroll" /> 
         <config-file target="res/xml/config.xml">
             <feature name="CordovaRoll">
                 <param name="android-package" value="org.apache.cordova.cordovaroll.CordovaRoll"/>
