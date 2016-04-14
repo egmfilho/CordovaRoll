@@ -12,6 +12,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.content.Intent;
+import android.net.Uri;
+
+import java.io.File;
 
 /**
  * Created by egmfilho on 12/04/16.
@@ -40,12 +44,21 @@ public class CordovaRoll extends CordovaPlugin {
         description = description.isEmpty() ? "" : description;
 
         try {
-            new SingleMediaScanner(context, MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description));
+            String filepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
+            galleryAddPic(filepath);
         } catch (Exception e) {
             callbackContext.error("Error!");
         } finally {
             callbackContext.success("Saved!");
         }
+    }
+
+    private void galleryAddPic(String filepath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(filepath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 
 }
