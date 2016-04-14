@@ -12,10 +12,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -53,6 +56,12 @@ public class CordovaRoll extends CordovaPlugin {
         }
     }
 
+    /**
+	 * A copy of the Android internals  insertImage method, this method populates the
+	 * meta data with DATE_ADDED and DATE_TAKEN. This fixes a common problem where media
+	 * that is inserted manually gets saved at the end of the gallery (because date is not populated).
+	 * @see android.provider.MediaStore.Images.Media#insertImage(ContentResolver, Bitmap, String, String)
+	 */
     public String insertImage(ContentResolver cr, Bitmap source, String title, String description) {
 
         ContentValues values = new ContentValues();
@@ -99,6 +108,48 @@ public class CordovaRoll extends CordovaPlugin {
         }
 
         return stringUrl;
+    }
+
+    /**
+	 * A copy of the Android internals StoreThumbnail method, it used with the insertImage to
+	 * populate the android.provider.MediaStore.Images.Media#insertImage with all the correct
+	 * meta data. The StoreThumbnail method is private so it must be duplicated here.
+	 * @see android.provider.MediaStore.Images.Media (StoreThumbnail private method)
+	 */
+	private static final Bitmap storeThumbnail(ContentResolver cr,Bitmap source,long id,float width, float height,int kind) {
+
+		// create the matrix to scale it
+		Matrix matrix = new Matrix();
+
+		float scaleX = width / source.getWidth();
+		float scaleY = height / source.getHeight();
+
+		matrix.setScale(scaleX, scaleY);
+
+		Bitmap thumb = Bitmap.createBitmap(source, 0, 0,
+			source.getWidth(),
+			source.getHeight(), matrix,
+			true
+		);
+
+		ContentValues values = new ContentValues(4);
+		values.put(MediaStore.Images.Media.Thumbnails.KIND,kind);
+		values.put(MediaStore.Images.Media.Thumbnails.IMAGE_ID,(int)id);
+		values.put(MediaStore.Images.Media.Thumbnails.HEIGHT,thumb.getHeight());
+		values.put(MediaStore.Images.Media.Thumbnails.WIDTH,thumb.getWidth());
+
+		Uri url = cr.insert(Images.Thumbnails.EXTERNAL_CONTENT_URI, values);
+
+		try {
+			OutputStream thumbOut = cr.openOutputStream(url);
+			thumb.compress(Bitmap.CompressFormat.JPEG, 100, thumbOut);
+			thumbOut.close();
+			return thumb;
+		} catch (FileNotFoundException ex) {
+			return null;
+		} catch (IOException ex) {
+			return null;
+		}
     }
 
 }
