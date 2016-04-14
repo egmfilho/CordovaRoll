@@ -138,7 +138,7 @@ public class CordovaRoll extends CordovaPlugin {
 		values.put(MediaStore.Images.Media.Thumbnails.HEIGHT,thumb.getHeight());
 		values.put(MediaStore.Images.Media.Thumbnails.WIDTH,thumb.getWidth());
 
-		Uri url = cr.insert(Images.Thumbnails.EXTERNAL_CONTENT_URI, values);
+		Uri url = cr.insert(MediaStore.Images.Media.Thumbnails.EXTERNAL_CONTENT_URI, values);
 
 		try {
 			OutputStream thumbOut = cr.openOutputStream(url);
