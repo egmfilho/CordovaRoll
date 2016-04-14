@@ -24,33 +24,30 @@ public class CordovaRoll extends CordovaPlugin {
             this.saveToPhotoLibrary(args.getString(0), args.getString(1), args.getString(2), callbackContext);
             return true;
         }
-
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
     private Bitmap decodeBitmap(String data) {
-
         byte[] b = Base64.decode(data, Base64.DEFAULT);
 
         return BitmapFactory.decodeByteArray(b, 0, b.length);
-
     }
 
     private void saveToPhotoLibrary(String data, String title, String description, CallbackContext callbackContext) {
-
         Context context = this.cordova.getActivity().getApplicationContext();
+        String filepath;
 
         title = title.isEmpty() ? "" : title;
         description = description.isEmpty() ? "" : description;
 
         try {
-            MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
+            filepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
         } catch (Exception e) {
             callbackContext.error("Error!");
         } finally {
+            new SingleMediaScanner(context, filepath);
             callbackContext.success("Saved!");
         }
-
     }
 
 }
