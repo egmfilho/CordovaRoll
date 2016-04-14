@@ -5,17 +5,18 @@ import org.apache.cordova.CallbackContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.content.Intent;
-import android.net.Uri;
 
-import java.io.File;
+import java.io.OutputStream;
 
 /**
  * Created by egmfilho on 12/04/16.
@@ -44,8 +45,7 @@ public class CordovaRoll extends CordovaPlugin {
         description = description.isEmpty() ? "" : description;
 
         try {
-            String filepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
-            galleryAddPic(context, filepath);
+            insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
         } catch (Exception e) {
             callbackContext.error("Error!");
         } finally {
@@ -53,12 +53,52 @@ public class CordovaRoll extends CordovaPlugin {
         }
     }
 
-    private void galleryAddPic(Context context, String filepath) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(filepath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        context.sendBroadcast(mediaScanIntent);
+    public String insertImage(ContentResolver cr, Bitmap source, String title, String description) {
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, title);
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, title);
+        values.put(MediaStore.Images.Media.DESCRIPTION, description);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        // Add the date meta data to ensure the image is added at the front of the gallery
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis());
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+
+        Uri url = null;
+        String stringUrl = null;    /* value to be returned */
+
+        try {
+            url = cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+            if (source != null) {
+                OutputStream imageOut = cr.openOutputStream(url);
+                try {
+                    source.compress(Bitmap.CompressFormat.JPEG, 100, imageOut);
+                } finally {
+                    imageOut.close();
+                }
+
+                // long id = ContentUris.parseId(url);
+                // // Wait until MINI_KIND thumbnail is generated.
+                // Bitmap miniThumb = MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.MINI_KIND, null);
+                // // This is for backward compatibility.
+                // storeThumbnail(cr, miniThumb, id, 50F, 50F, MediaStore.Images.Thumbnails.MICRO_KIND);
+            } else {
+                cr.delete(url, null, null);
+                url = null;
+            }
+        } catch (Exception e) {
+            if (url != null) {
+                cr.delete(url, null, null);
+                url = null;
+            }
+        }
+
+        if (url != null) {
+            stringUrl = url.toString();
+        }
+
+        return stringUrl;
     }
 
 }
