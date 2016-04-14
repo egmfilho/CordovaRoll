@@ -45,7 +45,7 @@ public class CordovaRoll extends CordovaPlugin {
 
         try {
             String filepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
-            galleryAddPic(filepath);
+            galleryAddPic(context, filepath);
         } catch (Exception e) {
             callbackContext.error("Error!");
         } finally {
@@ -53,12 +53,12 @@ public class CordovaRoll extends CordovaPlugin {
         }
     }
 
-    private void galleryAddPic(String filepath) {
+    private void galleryAddPic(Context context, String filepath) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(filepath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
+        context.sendBroadcast(mediaScanIntent);
     }
 
 }
