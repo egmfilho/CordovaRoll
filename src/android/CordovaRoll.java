@@ -35,17 +35,15 @@ public class CordovaRoll extends CordovaPlugin {
 
     private void saveToPhotoLibrary(String data, String title, String description, CallbackContext callbackContext) {
         Context context = this.cordova.getActivity().getApplicationContext();
-        String filepath;
 
         title = title.isEmpty() ? "" : title;
         description = description.isEmpty() ? "" : description;
 
         try {
-            filepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
+            new SingleMediaScanner(context, MediaStore.Images.Media.insertImage(context.getContentResolver(), decodeBitmap(data), title, description));
         } catch (Exception e) {
             callbackContext.error("Error!");
         } finally {
-            new SingleMediaScanner(context, filepath);
             callbackContext.success("Saved!");
         }
     }
