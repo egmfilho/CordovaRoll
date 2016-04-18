@@ -1,6 +1,6 @@
 module.exports = {
 
-    saveToPhotoLibrary: function(successCallback, failureCallback, dataURL, filename, albumTitle) {
+    saveBase64Image: function(successCallback, failureCallback, dataURL, filename, albumTitle) {
 
         if (typeof successCallback != 'function') {
             console.log('CordovaRoll Error: successCallback is not a function!');
@@ -10,7 +10,7 @@ module.exports = {
             console.log('Invalid album title!');
         } else {
             var data = String(dataURL).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
-            return cordova.exec(successCallback, failureCallback, 'CordovaRoll', 'saveToPhotoLibrary', [data, filename, albumTitle]);
+            return cordova.exec(successCallback, failureCallback, 'CordovaRoll', 'saveBase64Image', [data, filename, albumTitle]);
         }
 
     }

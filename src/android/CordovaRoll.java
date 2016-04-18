@@ -28,8 +28,8 @@ public class CordovaRoll extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("saveToPhotoLibrary".equals(action)) {
-            this.saveToPhotoLibrary(args.getString(0), args.getString(1), args.getString(2), callbackContext);
+        if ("saveBase64Image".equals(action)) {
+            this.saveBase64Image(args.getString(0), args.getString(1), args.getString(2), callbackContext);
             return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
@@ -41,7 +41,7 @@ public class CordovaRoll extends CordovaPlugin {
         return BitmapFactory.decodeByteArray(b, 0, b.length);
     }
 
-    private void saveToPhotoLibrary(String data, String title, String description, CallbackContext callbackContext) {
+    private void saveBase64Image(String data, String title, String description, CallbackContext callbackContext) {
         Context context = this.cordova.getActivity().getApplicationContext();
 
         title = title.isEmpty() ? "" : title;

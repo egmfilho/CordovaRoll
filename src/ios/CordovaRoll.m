@@ -3,7 +3,7 @@
 @implementation CordovaRoll
 @synthesize callbackId;
 
-- (void) saveToPhotoLibrary:(CDVInvokedUrlCommand*) command {
+- (void) saveBase64Image:(CDVInvokedUrlCommand*) command {
 
     NSLog(@"Cordova Roll - Save images to device's camera roll");
 

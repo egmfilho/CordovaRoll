@@ -24,5 +24,5 @@ cordova plugin add https://github.com/egmfilho/CordovaRoll.git
 
 ##Usage
 ```javascript
-cordovaRoll.saveToPhotoLibrary(success, error, base64Image, filename, albumName);
+cordovaRoll.saveBase64Image(success, error, base64Image, filename, albumName);
 ```
