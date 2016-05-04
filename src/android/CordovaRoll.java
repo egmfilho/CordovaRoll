@@ -43,16 +43,17 @@ public class CordovaRoll extends CordovaPlugin {
 
     private void saveBase64Image(String data, String title, String description, CallbackContext callbackContext) {
         Context context = this.cordova.getActivity().getApplicationContext();
+        String url = null;
 
         title = title.isEmpty() ? "" : title;
         description = description.isEmpty() ? "" : description;
 
         try {
-            insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
+            url = insertImage(context.getContentResolver(), decodeBitmap(data), title, description);
         } catch (Exception e) {
             callbackContext.error("Error!");
         } finally {
-            callbackContext.success("Saved!");
+            callbackContext.success(url);
         }
     }
 
